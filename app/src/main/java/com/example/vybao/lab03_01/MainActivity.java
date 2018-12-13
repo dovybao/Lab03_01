@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         lvContact = (ListView)findViewById(R.id.listContact);
 
         SQLiteDatabase eventsDB  = this.openOrCreateDatabase("contactsManager",MODE_PRIVATE,null);
-        MyDatabaseHelper db = new MyDatabaseHelper(this);
+        final MyDatabaseHelper db = new MyDatabaseHelper(this);
         // Inserting Contacts
         Log.d("Insert: ", "Inserting ..");
         db.addContact(new Contact("Ravi", "9100000000"));
@@ -64,6 +64,19 @@ public class MainActivity extends AppCompatActivity {
                  Contact selectedContact = listContact.get(position);
                  deleteContact(selectedContact);
                  return false;
+            }
+        });
+
+
+        lvContact.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Contact selectedContact = listContact.get(position);
+                selectedContact.setContactPhone("0965579869");
+                selectedContact.setContactName("Do Vy Bao");
+                db.updateContact(selectedContact);
+                adapter.notifyDataSetChanged();
+
             }
         });
         
